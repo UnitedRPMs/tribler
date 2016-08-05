@@ -1,2 +1,5 @@
 # tribler
-Privacy enhanced BitTorrent client with P2P content discovery
+A new kind of P2P Program
+Url:  http://www.tribler.org/
+License: MIT
+Version: 6.6.0

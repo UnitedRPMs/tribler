@@ -1,0 +1,28 @@
+--- tribler/setup.py	2016-07-26 18:02:22.000000000 +0100
++++ tribler.new/setup.py	2016-08-04 13:24:06.188490767 +0100
+@@ -1,5 +1,6 @@
+ from setuptools import setup, find_packages
+ from Tribler.Core.version import version_id
++import glob
+ 
+ 
+ with open('README.rst', 'r') as f:
+@@ -32,5 +33,17 @@ setup(
+     package_data={'': ['*.*'],
+                   'Tribler.Core.DecentralizedTracking.pymdht.core': ['bootstrap_stable', 'bootstrap_unstable'],
+     },
+-    packages=find_packages() + data_dirs,
++    packages=find_packages() + ['Tribler.dispersy.libnacl.libnacl' ] + data_dirs,
++    data_files=[('share/tribler/Tribler/Main/vwxGUI/images/',
++        glob.glob("Tribler/Main/vwxGUI/images/*.*")),
++        ('share/tribler/Tribler/Main/vwxGUI/images/unused/',
++        glob.glob("Tribler/Main/vwxGUI/images/unused/*")),
++        ('share/tribler/Tribler/Main/vwxGUI/images/default/',
++        glob.glob("Tribler/Main/vwxGUI/images/default/*")),
++        ('share/tribler/Tribler/Main/vwxGUI/images/flags/',
++        glob.glob("Tribler/Main/vwxGUI/images/flags/*")),
++        ('share/tribler/Tribler/Category/', ['Tribler/Category/category.conf',
++        'Tribler/Category/filter_terms.filter']),
++
++    ]
+ )
