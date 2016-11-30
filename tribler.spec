@@ -8,9 +8,9 @@ License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
 Source0: https://github.com/Tribler/tribler/releases/download/v%{version}-exp1/%{_name}-v%{version}-exp1.tar.xz
-Patch1: setup.py.patch
+Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
 BuildRequires: python-devel
-Requires: openssl
+Requires: openssl-full
 Requires: swig
 Requires: wxPython
 Requires: m2crypto
