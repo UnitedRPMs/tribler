@@ -3,7 +3,7 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 6.6.0
-Release: 0.exp1.2
+Release: 1.exp1.2
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -63,6 +63,9 @@ python setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
 %{_datadir}/tribler/
 
 %changelog
+* Wed Nov 30 2016 Pavlo Rudyi <paulcarroty at riseup.net> - 6.6.0-1.exp1.2
+- Added openssl-full as depends
+
 * Thu Aug 04 2016 Sérgio Basto <sergio@serjux.com> - 6.6.0-0.exp1.2
 - build with libnacl
 
