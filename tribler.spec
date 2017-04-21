@@ -1,16 +1,22 @@
 %define _name Tribler
 
+%global gitdate 20170420
+%global commit0 9aec498792cfdb8dfa44a2fb66f3762cdd794485
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global gver .%{gitdate}git%{shortcommit0}
+
+
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
-Version: 6.6.0
-Release: 1.exp1.2
+Version: 7.0.0
+Release: 1.b
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
-Source0: https://github.com/Tribler/tribler/releases/download/v%{version}-exp1/%{_name}-v%{version}-exp1.tar.xz
-Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
-BuildRequires: python-devel
-Requires: openssl-full
+Source0: https://github.com/Tribler/tribler/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+#Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
+BuildRequires: python-devel python-setuptools git
+Requires: openssl
 Requires: swig
 Requires: wxPython
 Requires: m2crypto
@@ -22,6 +28,11 @@ Requires: rb_libtorrent-python python-twisted
 Requires: python-cherrypy python-configobj
 #Requires: python-libnacl 
 Requires: python-decorator
+Requires: python-qt5
+Requires: python2-libnacl
+Requires: python-matplotlib
+Requires: python2-matplotlib-qt5
+Requires: python-feedparser
 
 BuildArch: noarch
 
@@ -35,34 +46,58 @@ Tribler has three goals in helping you, the user:
 3. share content
 
 %prep
-%setup -q -n %{name}
-%patch1 -p1 
+%autosetup -n %{name}-%{commit0}
+#patch1 -p1
+# Our trick; the tarball doesn't download completely the source; tribler needs some some sub-modules
+pushd Tribler/
+rm -rf dispersy/
+git clone --depth=1 https://github.com/Tribler/dispersy.git
+popd
+
+pushd Tribler/Core/DecentralizedTracking/ 
+rm -rf pymdht/
+git clone --depth=1 https://github.com/Tribler/pymdht.git
+popd
 
 %build
 python setup.py build
 
 %install
-python setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
+# python setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
+python setup.py install --root=%{buildroot} --optimize=1
 
-%__install -Dm755 Tribler/Main/tribler.py $RPM_BUILD_ROOT%{_bindir}/%{name}
-%__install -Dm644 Tribler/Main/Build/Ubuntu/tribler.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
-%__mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
-%__install -pm644 Tribler/Main/Build/Ubuntu/tribler_big.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/
-%__install -pm644 Tribler/Main/Build/Ubuntu/tribler.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/
-%__mkdir -p $RPM_BUILD_ROOT%{_datadir}/tribler
-%__install -pm644 logger.conf $RPM_BUILD_ROOT%{_datadir}/tribler/
+
+install -d %{buildroot}/usr/{bin,share/tribler}
+cp -r Tribler %{buildroot}/usr/share/tribler
+cp -r TriblerGUI %{buildroot}/usr/share/tribler
+cp Tribler/schema_sdb_v*.sql %{buildroot}/usr/share/tribler/Tribler
+install -d %{buildroot}/usr/share/{applications,pixmaps}
+install -m644 Tribler/Main/Build/Ubuntu/tribler.desktop %{buildroot}/usr/share/applications
+install -m644 Tribler/Main/Build/Ubuntu/tribler.xpm %{buildroot}/usr/share/pixmaps
+install -m644 Tribler/Main/Build/Ubuntu/tribler_big.xpm %{buildroot}/usr/share/pixmaps
+install -m755 debian/bin/tribler %{buildroot}/usr/bin
+install -m644 logger.conf %{buildroot}/usr/share/tribler/
+install -m644 run_tribler.py %{buildroot}/usr/share/tribler/
+cp -r twisted %{buildroot}/usr/share/tribler
 
 %files
 %doc *.rst doc
 %{_bindir}/%{name}
 %{python_sitelib}/%{_name}
 %{python_sitelib}/libtribler-*.egg-info
+%{python_sitelib}/TriblerGUI/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.xpm
 %{_datadir}/pixmaps/%{name}_big.xpm
 %{_datadir}/tribler/
 
+
 %changelog
+
+* Thu Apr 20 2017 David Vásquez <davidva AT tutanota DOT com> 7.0.0-1.b
+- Mitigation for openssl-full
+- Updated to 7.0.0-1.b
+
 * Wed Nov 30 2016 Pavlo Rudyi <paulcarroty at riseup.net> - 6.6.0-1.exp1.2
 - Added openssl-full as depends
 

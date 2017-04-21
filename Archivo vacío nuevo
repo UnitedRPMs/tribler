@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "/usr/share/tribler/TriblerGUI/core_manager.py", line 128, in on_received_state
+    raise RuntimeError(state['last_exception'])
+RuntimeError: Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/site-packages/twisted/internet/base.py", line 417, in fireEvent
+    DeferredList(beforeResults).addCallback(self._continueFiring)
+  File "/usr/lib64/python2.7/site-packages/twisted/internet/defer.py", line 317, in addCallback
+    callbackKeywords=kw)
+  File "/usr/lib64/python2.7/site-packages/twisted/internet/defer.py", line 306, in addCallbacks
+    self._runCallbacks()
+  File "/usr/lib64/python2.7/site-packages/twisted/internet/defer.py", line 588, in _runCallbacks
+    current.result = callback(current.result, *args, **kw)
+--- <exception caught here> ---
+  File "/usr/lib64/python2.7/site-packages/twisted/internet/base.py", line 430, in _continueFiring
+    callable(*args, **kwargs)
+  File "/usr/share/tribler/TriblerGUI/core_manager.py", line 60, in start_tribler
+    session.start()
+  File "/usr/share/tribler/Tribler/dispersy/util.py", line 46, in helper
+    return blockingCallFromThread(reactor, func, *args, **kargs)
+  File "/usr/share/tribler/Tribler/dispersy/util.py", line 225, in blockingCallFromThread
+    return f(*args, **kwargs)
+  File "/usr/share/tribler/Tribler/Core/Session.py", line 558, in start
+    startup_deferred = self.lm.register(self, self.sesslock)
+  File "/usr/share/tribler/Tribler/Core/APIImplementation/LaunchManyCore.py", line 171, in register
+    self.init()
+  File "/usr/share/tribler/Tribler/Core/APIImplementation/LaunchManyCore.py", line 272, in init
+    self.load_communities()
+  File "/usr/share/tribler/Tribler/dispersy/util.py", line 46, in helper
+    return blockingCallFromThread(reactor, func, *args, **kargs)
+  File "/usr/share/tribler/Tribler/dispersy/util.py", line 225, in blockingCallFromThread
+    return f(*args, **kwargs)
+  File "/usr/share/tribler/Tribler/Core/APIImplementation/LaunchManyCore.py", line 232, in load_communities
+    from Tribler.community.tunnel.hidden_community import HiddenTunnelCommunity
+  File "/usr/share/tribler/Tribler/community/tunnel/hidden_community.py", line 18, in <module>
+    from Tribler.Core.DecentralizedTracking.pymdht.core.identifier import Id
+exceptions.ImportError: No module named pymdht.core.identifier
