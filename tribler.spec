@@ -54,6 +54,11 @@ rm -rf dispersy/
 git clone --depth=1 https://github.com/Tribler/dispersy.git
 popd
 
+pushd Tribler/dispersy
+rm -rf libnacl/
+git clone --depth=1 https://github.com/saltstack/libnacl.git
+popd
+
 pushd Tribler/Core/DecentralizedTracking/ 
 rm -rf pymdht/
 git clone --depth=1 https://github.com/Tribler/pymdht.git
