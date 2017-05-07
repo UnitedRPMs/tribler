@@ -1,1 +1,7 @@
-Tribler-v6.6.0-exp1.tar.xz
+BUILD/*
+BUILDROOT/*
+RPMS/*
+SPECS/*
+SRPMS/*
+tribler*.tar.gz
+.directory

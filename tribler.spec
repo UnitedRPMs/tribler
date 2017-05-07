@@ -1,7 +1,7 @@
 %define _name Tribler
 
 %global gitdate 20170420
-%global commit0 9aec498792cfdb8dfa44a2fb66f3762cdd794485
+%global commit0 0b49771947681e1f2219a1d029fbbb76f4f6a8f7
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .%{gitdate}git%{shortcommit0}
 
@@ -9,7 +9,7 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 7.0.0
-Release: 1.b%{?dist}
+Release: 2.rc1%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -26,7 +26,7 @@ Requires: libsodium python-cryptography python-plyvel
 Requires: scons python-netifaces python-igraph python-pyasn1 gmpy
 Requires: rb_libtorrent-python python-twisted
 Requires: python-cherrypy python-configobj
-#Requires: python-libnacl 
+Requires: python-libnacl 
 Requires: python-decorator
 Requires: python-qt5
 Requires: python2-libnacl
@@ -98,6 +98,9 @@ cp -r twisted %{buildroot}/usr/share/tribler
 
 
 %changelog
+
+* Sun May 07 2017 David Vásquez <davidva AT tutanota DOT com> 7.0.0-2.rc1
+- Updated to 7.0.0-2.rc1
 
 * Thu Apr 20 2017 David Vásquez <davidva AT tutanota DOT com> 7.0.0-1.b
 - Mitigation for openssl-full
