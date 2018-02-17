@@ -8,4 +8,3 @@ Url:  http://www.tribler.org/
 
 License: MIT  
 
-Version: 7.0.0-2.rc1
