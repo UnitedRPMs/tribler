@@ -1,31 +1,41 @@
 %define _name Tribler
 
-%global gitdate 20180216
-%global commit0 4d9c3ab6ac4a2951800a4edace5201f134a11314
+%global gitdate 20180401
+%global commit0 2aceea69977b3534186f5da078f1883dfb59cf42
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
-Version: 7.0.1
+Version: 7.0.2
 Release: 1%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
 Source0: https://github.com/Tribler/tribler/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 #Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
-BuildRequires: python-devel python-setuptools git
+BuildRequires: python-devel
+BuildRequires: python-setuptools
+BuildRequires: git
 Requires: openssl
 Requires: swig
 Requires: wxPython
 Requires: m2crypto
 Requires: vlc
 Requires: python-apsw
-Requires: libsodium python-cryptography python-plyvel
-Requires: scons python-netifaces python-igraph python-pyasn1 gmpy
-Requires: rb_libtorrent-python python-twisted
-Requires: python-cherrypy python-configobj
+Requires: libsodium
+Requires: python-cryptography
+Requires: python-plyvel
+Requires: scons
+Requires: python-netifaces
+Requires: python-igraph
+Requires: python-pyasn1
+Requires: gmpy
+Requires: rb_libtorrent-python
+Requires: python-twisted
+Requires: python-cherrypy
+Requires: python-configobj
 Requires: python-libnacl 
 Requires: python-decorator
 Requires: python-qt5
@@ -43,7 +53,7 @@ audio, pictures, and much more.
 Tribler has three goals in helping you, the user:
 1. Find content
 2. Consume content
-3. share content
+3. Share content
 
 %prep
 %autosetup -n %{name}-%{commit0}
@@ -71,7 +81,6 @@ python setup.py build
 # python setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
 python setup.py install --root=%{buildroot} --optimize=1
 
-
 install -d %{buildroot}/usr/{bin,share/tribler}
 cp -r Tribler %{buildroot}/usr/share/tribler
 cp -r TriblerGUI %{buildroot}/usr/share/tribler
@@ -95,7 +104,6 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %{_datadir}/pixmaps/%{name}.xpm
 %{_datadir}/pixmaps/%{name}_big.xpm
 %{_datadir}/tribler/
-
 
 %changelog
 
