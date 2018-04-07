@@ -107,6 +107,9 @@ cp -r twisted %{buildroot}/usr/share/tribler
 
 %changelog
 
+* Fri Apr 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-1
+- Updated to 7.0.2
+
 * Fri Feb 16 2018 David Vásquez <davidva AT tutanota DOT com> 7.0.1-1
 - Updated to 7.0.1
 
