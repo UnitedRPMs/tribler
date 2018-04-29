@@ -92,6 +92,7 @@ install -m644 Tribler/Main/Build/Ubuntu/tribler_big.xpm %{buildroot}/usr/share/p
 install -m755 debian/bin/tribler %{buildroot}/usr/bin
 install -m644 logger.conf %{buildroot}/usr/share/tribler/
 install -m644 run_tribler.py %{buildroot}/usr/share/tribler/
+install -m644 check_os.py %{buildroot}/usr/share/tribler/
 cp -r twisted %{buildroot}/usr/share/tribler
 
 %files
