@@ -9,7 +9,7 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 7.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -107,6 +107,9 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %{_datadir}/tribler/
 
 %changelog
+
+* Tue May 01 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-2
+- Add missing check_os module installation
 
 * Fri Apr 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-1
 - Updated to 7.0.2
