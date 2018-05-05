@@ -9,7 +9,7 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 7.0.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -43,6 +43,8 @@ Requires: python2-libnacl
 Requires: python-matplotlib
 Requires: python2-matplotlib-qt5
 Requires: python-feedparser
+Requires: python2-psutil
+Requires: python2-meliae
 
 BuildArch: noarch
 
@@ -107,6 +109,10 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %{_datadir}/tribler/
 
 %changelog
+
+* Sat May 05 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-3
+- Add missing dependencies python2-psutil and python2-meliae
+- Known issue : "AssertionError: Elliptic curve sect233k1 is not available on this system."
 
 * Tue May 01 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-2
 - Add missing check_os module installation
