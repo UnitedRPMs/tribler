@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Uses alternative openssl
+
+if [ `getconf LONG_BIT` = "64" ]; then
+libdir=lib64
+else
+libdir=lib
+fi
+
+LD_LIBRARY_PATH=/opt/openssl-freeworld/$libdir/openssl-freeworld/:/opt/openssl-freeworld/$libdir/openssl-freeworld/engines-1.1/:/usr/$libdir/:/usr/$libdir/python2.7/site-packages/M2Crypto/:/usr/$libdir/python2.7/site-packages/M2Crypto-0.*.egg-info/ /usr/bin/tribler-gui "$@"

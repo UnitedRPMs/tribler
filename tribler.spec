@@ -9,16 +9,17 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 7.0.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
 Source0: https://github.com/Tribler/tribler/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source1: tribler
 #Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
 BuildRequires: python-devel
 BuildRequires: python-setuptools
 BuildRequires: git
-Requires: openssl
+Requires: openssl-freeworld
 Requires: swig
 Requires: wxPython
 Requires: m2crypto
@@ -36,7 +37,7 @@ Requires: rb_libtorrent-python
 Requires: python-twisted
 Requires: python-cherrypy
 Requires: python-configobj
-Requires: python-libnacl 
+Requires: python-libnacl
 Requires: python-decorator
 Requires: python-qt5
 Requires: python2-libnacl
@@ -71,7 +72,7 @@ rm -rf libnacl/
 git clone --depth=1 https://github.com/saltstack/libnacl.git
 popd
 
-pushd Tribler/Core/DecentralizedTracking/ 
+pushd Tribler/Core/DecentralizedTracking/
 rm -rf pymdht/
 git clone --depth=1 https://github.com/Tribler/pymdht.git
 popd
@@ -92,6 +93,9 @@ install -m644 Tribler/Main/Build/Ubuntu/tribler.desktop %{buildroot}/usr/share/a
 install -m644 Tribler/Main/Build/Ubuntu/tribler.xpm %{buildroot}/usr/share/pixmaps
 install -m644 Tribler/Main/Build/Ubuntu/tribler_big.xpm %{buildroot}/usr/share/pixmaps
 install -m755 debian/bin/tribler %{buildroot}/usr/bin
+mv %{buildroot}/usr/bin/tribler %{buildroot}/usr/bin/tribler-gui
+install -dm755 %{buildroot}/usr/bin/
+install -m755 %{SOURCE1} %{buildroot}/usr/bin/
 install -m644 logger.conf %{buildroot}/usr/share/tribler/
 install -m644 run_tribler.py %{buildroot}/usr/share/tribler/
 install -m644 check_os.py %{buildroot}/usr/share/tribler/
@@ -100,6 +104,7 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %files
 %doc *.rst doc
 %{_bindir}/%{name}
+%{_bindir}/%{name}-gui
 %{python_sitelib}/%{_name}
 %{python_sitelib}/libtribler-*.egg-info
 %{python_sitelib}/TriblerGUI/
@@ -109,6 +114,9 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %{_datadir}/tribler/
 
 %changelog
+
+* Sun May 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-4
+- Relies on openssl-freeworld to add missing curve
 
 * Sat May 05 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-3
 - Add missing dependencies python2-psutil and python2-meliae
