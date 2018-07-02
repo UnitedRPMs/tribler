@@ -1,15 +1,15 @@
 %define _name Tribler
 
-%global gitdate 20180401
-%global commit0 2aceea69977b3534186f5da078f1883dfb59cf42
+%global gitdate 20180629
+%global commit0 f133147a4af593b511acc846780449f78026aecf
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
-Version: 7.0.2
-Release: 4%{?dist}
+Version: 7.1.0exp3
+Release: 1%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -114,6 +114,8 @@ cp -r twisted %{buildroot}/usr/share/tribler
 %{_datadir}/tribler/
 
 %changelog
+* Mon Jul 02 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0exp3-1
+- Update to 7.1.0exp3
 
 * Sun May 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-4
 - Relies on openssl-freeworld to add missing curve
