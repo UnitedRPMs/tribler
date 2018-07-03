@@ -1,51 +1,88 @@
 %define _name Tribler
 
-%global gitdate 20180629
-%global commit0 f133147a4af593b511acc846780449f78026aecf
+%global gitdate 20180702
+%global commit0 22d2630fa28dcff9405e2be91e349ce08abf8a9e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
+
+# Turn off the brp-python-bytecompile automagic
+%global _python_bytecompile_extra 0
 
 
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
-Version: 7.1.0exp3
-Release: 1%{?dist}
+Version: 7.1.0
+Release: 1.exp3%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
 Source0: https://github.com/Tribler/tribler/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 Source1: tribler
-#Patch1: https://raw.githubusercontent.com/UnitedRPMs/tribler/master/setup.py.patch
-BuildRequires: python-devel
-BuildRequires: python-setuptools
+Source2: tribler-snapshot
+BuildRequires: python2-devel
+BuildRequires: python2-setuptools
 BuildRequires: git
 Requires: openssl-freeworld
 Requires: swig
-Requires: wxPython
+Requires: python2-wxpython
+#Requires: python-wxpython
 Requires: m2crypto
 Requires: vlc
-Requires: python-apsw
+Requires: python2-pillow
+#Requires: python3-pillow
+#Requires: python-apsw
+Requires: python2-apsw
 Requires: libsodium
-Requires: python-cryptography
-Requires: python-plyvel
+#Requires: python-cryptography
+Requires: python2-cryptography
+#Requires: python-plyvel
+Requires: python2-plyvel
 Requires: scons
-Requires: python-netifaces
-Requires: python-igraph
-Requires: python-pyasn1
+#Requires: python-netifaces
+Requires: python2-netifaces
+#Requires: python-igraph
+Requires: python2-igraph
+#Requires: python-pyasn1
+Requires: python2-pyasn1
 Requires: gmpy
-Requires: rb_libtorrent-python
-Requires: python-twisted
-Requires: python-cherrypy
-Requires: python-configobj
-Requires: python-libnacl
-Requires: python-decorator
-Requires: python-qt5
+#Requires: rb_libtorrent-python
+Requires: rb_libtorrent-python2
+#Requires: python-twisted
+Requires: python2-twisted
+#Requires: python-cherrypy
+Requires: python2-cherrypy
+#Requires: python-configobj
+Requires: python2-configobj
+#Requires: python-libnacl
 Requires: python2-libnacl
-Requires: python-matplotlib
+#Requires: python-decorator
+Requires: python2-decorator
+#Requires: python-qt5
+Requires: python2-qt5
+Requires: python2-libnacl
+#Requires: python-matplotlib
+Requires: python2-matplotlib
 Requires: python2-matplotlib-qt5
-Requires: python-feedparser
+#Requires: python-feedparser
+Requires: python2-feedparser
 Requires: python2-psutil
 Requires: python2-meliae
+Requires: python2-pillow-qt
+Requires: python2-chardet
+Requires: python2-requests
+Requires: rb_libtorrent
+Requires: python2-service-identity
+Requires: python2-keyring
+Requires: python2-dns
+Requires: python2-ecdsa
+Requires: python2-jsonrpclib
+Requires: python2-plyvel
+Requires: python2-pbkdf2
+Requires: python2-protobuf
+Requires: python2-pysocks
+Requires: python2-scipy
+Requires: python2-networkx
+Requires: python2-keyrings-alt
 
 BuildArch: noarch
 
@@ -59,35 +96,22 @@ Tribler has three goals in helping you, the user:
 3. Share content
 
 %prep
-%autosetup -n %{name}-%{commit0}
-#patch1 -p1
-# Our trick; the tarball doesn't download completely the source; tribler needs some some sub-modules
-pushd Tribler/
-rm -rf dispersy/
-git clone --depth=1 https://github.com/Tribler/dispersy.git
-popd
+# Our trick; the tarball doesn't download completely the source code; tribler needs some submodules
+# the script makes it for us.
 
-pushd Tribler/dispersy
-rm -rf libnacl/
-git clone --depth=1 https://github.com/saltstack/libnacl.git
-popd
-
-pushd Tribler/Core/DecentralizedTracking/
-rm -rf pymdht/
-git clone --depth=1 https://github.com/Tribler/pymdht.git
-popd
+%{S:2} -c %{commit0}
+%autosetup -T -D -n %{name}-%{shortcommit0} 
 
 %build
-python setup.py build
+%py2_build
 
 %install
-# python setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
-python setup.py install --root=%{buildroot} --optimize=1
+%py2_install
 
 install -d %{buildroot}/usr/{bin,share/tribler}
 cp -r Tribler %{buildroot}/usr/share/tribler
 cp -r TriblerGUI %{buildroot}/usr/share/tribler
-cp Tribler/schema_sdb_v*.sql %{buildroot}/usr/share/tribler/Tribler
+cp Tribler/Core/CacheDB/schema_sdb_v*.sql %{buildroot}/usr/share/tribler/Tribler
 install -d %{buildroot}/usr/share/{applications,pixmaps}
 install -m644 Tribler/Main/Build/Ubuntu/tribler.desktop %{buildroot}/usr/share/applications
 install -m644 Tribler/Main/Build/Ubuntu/tribler.xpm %{buildroot}/usr/share/pixmaps
@@ -101,21 +125,27 @@ install -m644 run_tribler.py %{buildroot}/usr/share/tribler/
 install -m644 check_os.py %{buildroot}/usr/share/tribler/
 cp -r twisted %{buildroot}/usr/share/tribler
 
+# We don't need it
+rm -f %{buildroot}/%{_datadir}/tribler/Tribler/Core/DecentralizedTracking/pymdht/.git
+rm -f %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/.git
+
 %files
 %doc *.rst doc
 %{_bindir}/%{name}
 %{_bindir}/%{name}-gui
-%{python_sitelib}/%{_name}
-%{python_sitelib}/libtribler-*.egg-info
-%{python_sitelib}/TriblerGUI/
+%{python2_sitelib}/%{_name}
+%{python2_sitelib}/libtribler-*.egg-info
+%{python2_sitelib}/TriblerGUI/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.xpm
 %{_datadir}/pixmaps/%{name}_big.xpm
 %{_datadir}/tribler/
 
 %changelog
-* Mon Jul 02 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0exp3-1
-- Update to 7.1.0exp3
+
+* Mon Jul 02 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0-1.exp3
+- Update to 7.1.0-1.exp3
+- spec file modernized
 
 * Sun May 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.0.2-4
 - Relies on openssl-freeworld to add missing curve
