@@ -12,7 +12,7 @@
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
 Version: 7.1.0
-Release: 1.exp3%{?dist}
+Release: 2.exp3%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -142,6 +142,9 @@ rm -f %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/.git
 %{_datadir}/tribler/
 
 %changelog
+
+* Fri Jul 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0-2.exp3
+- Rebuilt for Python 3.7
 
 * Mon Jul 02 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0-1.exp3
 - Update to 7.1.0-1.exp3
