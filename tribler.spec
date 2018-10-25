@@ -1,7 +1,7 @@
 %define _name Tribler
 
-%global gitdate 20180702
-%global commit0 22d2630fa28dcff9405e2be91e349ce08abf8a9e
+%global gitdate 20181025
+%global commit0 407afd318d95a62c6c99c30f074389906da0d043
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -11,8 +11,8 @@
 
 Name: tribler
 Summary: Privacy enhanced BitTorrent client with P2P content discovery
-Version: 7.1.0
-Release: 2.exp3%{?dist}
+Version: 7.1.2
+Release: 1%{?dist}
 License: MIT
 Group: Productivity/Networking/Other
 URL: http://www.tribler.org/
@@ -142,6 +142,9 @@ rm -f %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/.git
 %{_datadir}/tribler/
 
 %changelog
+
+* Thu Oct 25 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.2-1
+- Updated to 7.1.2
 
 * Fri Jul 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.0-2.exp3
 - Rebuilt for Python 3.7
