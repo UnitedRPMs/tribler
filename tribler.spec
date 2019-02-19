@@ -129,6 +129,19 @@ cp -r twisted %{buildroot}/usr/share/tribler
 rm -f %{buildroot}/%{_datadir}/tribler/Tribler/Core/DecentralizedTracking/pymdht/.git
 rm -f %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/.git
 
+# Mangle fix
+
+sed -i 's|/usr/bin/python|/usr/bin/python2|g' %{buildroot}/%{_datadir}/tribler/TriblerGUI/vlc.py
+sed -i 's|/usr/bin/env python2|/usr/bin/python2|g' %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/tool/createkey.py
+sed -i 's|/bin/bash|/usr/bin/bash|g' %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/scripts/start_tracker.sh
+sed -i 's|/bin/sh -x|/usr/bin/sh -x|g' %{buildroot}/%{_datadir}/tribler/Tribler/Test/test.sh
+sed -i 's|/usr/bin/env python|/usr/bin/python2|g' %{buildroot}/%{_datadir}/tribler/Tribler/Main/Build/update_version_from_git.py
+sed -i 's|/bin/bash|/usr/bin/bash|g' %{buildroot}/%{_datadir}/tribler/Tribler/pyipv8/run_all_tests_unix.sh
+sed -i 's|/bin/bash|/usr/bin/bash|g' %{buildroot}/%{_bindir}/tribler
+sed -i 's|/bin/bash|/usr/bin/bash|g' %{buildroot}/%{_bindir}/tribler-gui
+sed -i 's|/bin/sh -x|/usr/bin/sh -x|g' %{buildroot}/%{python2_sitelib}/Tribler/Test/test.sh
+sed -i 's|/bin/bash|/usr/bin/bash|g' %{buildroot}/%{python2_sitelib}/Tribler/pyipv8/run_all_tests_unix.sh
+
 %files
 %doc *.rst doc
 %{_bindir}/%{name}
