@@ -143,7 +143,7 @@ rm -f %{buildroot}/%{_datadir}/tribler/Tribler/dispersy/.git
 
 %changelog
 
-* Mon Feb 18 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.2.2-1
+* Mon Feb 18 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.2.2-1
 - Updated to 7.2.2
 
 * Thu Oct 25 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 7.1.2-1
